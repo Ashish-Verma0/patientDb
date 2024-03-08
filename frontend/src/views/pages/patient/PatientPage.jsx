@@ -14,6 +14,7 @@ import Loader from '../loader/Loader'
 const PatientPage = () => {
   let patientData = localStorage.getItem('patientRecord')
   let patientRecord = JSON.parse(patientData)
+  const [updateState, setUpdateState] = useState(false)
   const [loader, setLoader] = useState(false)
   const [startingDate, setStartingDate] = React.useState(null)
   const [data, setData] = useState(false)
@@ -21,10 +22,10 @@ const PatientPage = () => {
   const [patientSearch, setPatientSearch] = useState([])
   const [problems, setProblems] = useState([
     {
-      problem: 'pain',
+      problem: 'Rabies',
     },
     {
-      problem: 'pain2',
+      problem: 'Napthalene Poisoning',
     },
   ])
   const [formData, setFormData] = useState({
@@ -54,10 +55,10 @@ const PatientPage = () => {
       // Simulated data since API endpoint is not provided
       const data = [
         {
-          problem: 'pain',
+          problem: 'Rabies',
         },
         {
-          problem: 'pain2',
+          problem: 'Napthalene Poisoning',
         },
       ]
       setProblems(data)
@@ -162,6 +163,7 @@ const PatientPage = () => {
         toast.success('Patient Created Successfully')
         setTimeout(() => {
           setData(false)
+          setUpdateState(true)
         }, 2000)
         setFormData({
           name: '',
@@ -174,16 +176,32 @@ const PatientPage = () => {
           doctor_id: patientRecord?._id,
         })
       }
+
+      if (data.message == 'phone Already Exists') {
+        toast.warning('phone Already Exists')
+      }
+      if (data.message == 'Crn Already Exists') {
+        toast.warning('Crn Already Exists')
+      }
+      console.log('data', data)
+      setSearch(data?.data?.phone)
+
+      // getSearchByPatient()
     } catch (error) {
+      toast.warning('Something went wrong')
+
       console.error('Error submitting data:', error)
     }
   }
 
+  useEffect(() => {
+    if (updateState === true) {
+      getSearchByPatient()
+    }
+  }, [updateState])
+
   let [dateAndTime, setDateAndTime] = useState(new Date())
 
-  // useEffect(() => {
-  //   getSearchByPatient()
-  // }, [search])
   return (
     <>
       <div>
@@ -271,8 +289,8 @@ const PatientPage = () => {
                   <h4>Patient Details</h4>
                   <div className="row">
                     <div className="col-md-4">
-                      <div className="row">
-                        <label className="col-sm-2 mt-2 patientNamediv">Name</label>
+                      <div>
+                        <label className="col-sm-2 mt-2 patientNamediv">Name*</label>
                         <div className="col-sm-8">
                           <input
                             type="text"
@@ -285,8 +303,8 @@ const PatientPage = () => {
                       </div>
                     </div>
                     <div className="col-md-4">
-                      <div className="row">
-                        <label className="col-sm-2 mt-2 patientNamediv">Age:</label>
+                      <div>
+                        <label className="col-sm-2 mt-2 patientNamediv">Age*</label>
                         <div className="col-sm-8">
                           <input
                             type="number"
@@ -299,8 +317,8 @@ const PatientPage = () => {
                       </div>
                     </div>
                     <div className="col-md-4">
-                      <div className="row">
-                        <label className="col-sm-2 mt-2 patientNamediv">Sex:</label>
+                      <div>
+                        <label className="col-sm-2 mt-2 patientNamediv">Sex*</label>
                         <div className="col-sm-8">
                           <select
                             className="form-control"
@@ -317,8 +335,8 @@ const PatientPage = () => {
                     </div>
                     <div className="row mt-4">
                       <div className="col-md-5">
-                        <div className="row">
-                          <label className="col-sm-4 mt-2 patientNamediv">Phone Number:</label>
+                        <div>
+                          <label className="col-sm-4 mt-2 patientNamediv">Phone Number*</label>
                           <div className="col-sm-7">
                             <input
                               className="form-control"
@@ -332,8 +350,8 @@ const PatientPage = () => {
                         </div>
                       </div>
                       <div className="col-md-5">
-                        <div className="row">
-                          <label className="col-sm-4 mt-2 patientNamediv">CRN Number:</label>
+                        <div>
+                          <label className="col-sm-4 mt-2 patientNamediv">CRN Number*</label>
                           <div className="col-sm-7">
                             <input
                               className="form-control"

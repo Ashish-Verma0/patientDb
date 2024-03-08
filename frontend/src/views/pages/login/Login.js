@@ -18,6 +18,7 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { postFetchData } from 'src/api/Api'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { faL } from '@fortawesome/free-solid-svg-icons'
 const Login = () => {
   const navigate = useNavigate()
   const [data, setData] = useState({
@@ -45,8 +46,13 @@ const Login = () => {
         }, 1000)
         // window.location.reload()
       }
+
+      if (data.success === false) {
+        toast.warning('Invalid Credentials')
+      }
       // console.log(data)
     } catch (error) {
+      toast.warning('Something went wrong')
       console.log(error)
     }
   }

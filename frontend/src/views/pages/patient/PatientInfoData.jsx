@@ -118,15 +118,17 @@ const PatientInfoData = ({ patientSearch, getSearchByPatient }) => {
         const dateObject = new Date(inputDate)
 
         // Formatting the date
+        let hours = dateObject.getHours()
+        const amPm = hours >= 12 ? 'PM' : 'AM'
+        hours = hours % 12 || 12 // Convert hours to 12-hour format
         const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
           .toString()
-          .padStart(2, '0')}-${dateObject.getDate().toString().padStart(2, '0')} ${dateObject
-          .getHours()
+          .padStart(2, '0')}-${dateObject.getDate().toString().padStart(2, '0')} ${hours
           .toString()
           .padStart(2, '0')}:${dateObject.getMinutes().toString().padStart(2, '0')}:${dateObject
           .getSeconds()
           .toString()
-          .padStart(2, '0')} ${dateObject.getHours() >= 12 ? 'PM' : 'AM'}`
+          .padStart(2, '0')} ${amPm}`
 
         console.log(formattedDate)
         return (

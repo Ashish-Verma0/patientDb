@@ -20,7 +20,14 @@ const PatientAddNewRecord = ({ _id, getSearchByPatient }) => {
     desc: '',
   })
   const [diagnosis, setDiagnosis] = useState([])
-  const [problems] = useState([{ problem: 'pain' }, { problem: 'pain2' }])
+  const [problems] = useState([
+    {
+      problem: 'Rabies',
+    },
+    {
+      problem: 'Napthalene Poisoning',
+    },
+  ])
 
   const handleCheckboxChange = (problemName, checked) => {
     if (checked) {
